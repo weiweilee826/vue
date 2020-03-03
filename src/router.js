@@ -1,21 +1,25 @@
 import VueRouter from 'vue-router'
-import Foo from './components/Foo'
-import Voo from './components/Voo'
 import Login from './pages/Login'
+import Home from './pages/Home'
 
-export default new VueRouter({
-    routes : [
-      {
-        path: '/foo',
-        component: Foo,
-        children: [
-          {
-            path: 'voo',
-            component: Voo,
-            
-          }
-        ]
-      },
-      { path: '/login', component: Login }
-    ]
-  })
+const router = new VueRouter({
+  routes: [
+    {
+      path: '*',
+      redirect: '/login'
+    },
+    {
+      path: '/',
+      component: Home,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/login',
+      component: Login
+    },
+  ]
+})
+
+
+
+export default router

@@ -13,6 +13,7 @@ Vue.use(VueAxios, axios)
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 Vue.config.productionTip = false
+axios.defaults.withCredentials = true;
 
 new Vue({
   render: h => h(App),
