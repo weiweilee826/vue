@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form class="form-signin">
+    <form class="form-signin" @submit="login">
       <img
         class="mb-4"
         src="/docs/4.4/assets/brand/bootstrap-solid.svg"
@@ -11,6 +11,7 @@
       <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
       <label for="inputEmail" class="sr-only">Email address</label>
       <input
+        v-model="username"
         type="email"
         id="inputEmail"
         class="form-control"
@@ -20,6 +21,7 @@
       />
       <label for="inputPassword" class="sr-only">Password</label>
       <input
+        v-model="password"
         type="password"
         id="inputPassword"
         class="form-control"
@@ -41,7 +43,31 @@
 
 <script>
 export default {
-    
+  data() {
+    return {
+      username: "",
+      password: ""
+    };
+  },
+
+  methods: {
+    login() {
+        var vm=this;
+      this.axios
+        .post(`${process.env.VUE_APP_HOST}/admin/signin`, {
+          username: this.username,
+          password: this.password
+        })
+        .then(function(response) {
+          if (response.data.success) {
+            vm.$router.push("/");
+          }
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    }
+  }
 };
 </script>
 
