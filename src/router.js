@@ -1,5 +1,7 @@
 import VueRouter from 'vue-router'
 import Login from './pages/Login'
+import DashBoard from './pages/DashBoard'
+import Product from './pages/Product'
 import Home from './pages/Home'
 import axios from 'axios'
 
@@ -12,7 +14,19 @@ const router = new VueRouter({
     {
       path: '/',
       component: Home,
-      meta: { requiresAuth: true  }
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/dashboard',
+      component: DashBoard,
+      meta: { requiresAuth: true },
+      children: [
+        {
+          path: 'product',
+          component: Product,
+          meta: { requiresAuth: true }
+        },
+      ],
     },
     {
       path: '/login',
@@ -22,7 +36,6 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  // console.log(111)
   if (to.meta.requiresAuth) {
     const API = `${process.env.VUE_APP_HOST}/api/user/check`;
     axios.post(API)
