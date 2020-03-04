@@ -1,11 +1,29 @@
 <template>
   <div class="hello">
     <img alt="Vue logo" src="../assets/logo.png" />
+    <button type="button" class="btn btn-primary" @click="logout">
+      Log out
+    </button>
   </div>
 </template>
 
 <script>
 export default {
+  methods: {
+    logout() {
+      var vm = this;
+      this.axios
+        .post(`${process.env.VUE_APP_HOST}/logout`)
+        .then(function(response) {
+          if (response.data.success) {
+            vm.$router.push("/login");
+          }
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    }
+  }
 };
 </script>
 

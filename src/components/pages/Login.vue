@@ -8,7 +8,7 @@
         width="72"
         height="72"
       />
-      <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+      <h1 class="h3 mb-3 font-weight-normal">Please Login</h1>
       <label for="inputEmail" class="sr-only">Email address</label>
       <input
         v-model="username"
@@ -34,7 +34,7 @@
         </label>
       </div>
       <button class="btn btn-lg btn-primary btn-block" type="submit">
-        Sign in
+        Login
       </button>
       <p class="mt-5 mb-3 text-muted">&copy; 2017-2019</p>
     </form>
@@ -49,10 +49,9 @@ export default {
       password: ""
     };
   },
-
   methods: {
     login() {
-        var vm=this;
+      var vm = this;
       this.axios
         .post(`${process.env.VUE_APP_HOST}/admin/signin`, {
           username: this.username,
