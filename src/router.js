@@ -28,7 +28,7 @@ const routes = [
         name: 'product',
         path: 'product',
         component: Product,
-        meta: { requiresAuth: true }
+        // meta: { requiresAuth: true }
       }
     ]
   },
