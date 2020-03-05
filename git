@@ -1,0 +1,59 @@
+[33mcommit cf408f9d1863fbb1147b2ef14073d9f76240cc4c[m
+Author: weiweilee826 <42629336+weiweilee826@users.noreply.github.com>
+Date:   Thu Mar 5 00:57:17 2020 +0800
+
+    product list html
+
+[33mcommit 7124cdd5cc59440d7c9c7db098d2d017ed559e15[m
+Author: weiweilee826 <42629336+weiweilee826@users.noreply.github.com>
+Date:   Thu Mar 5 00:07:07 2020 +0800
+
+    add dashboard
+
+[33mcommit 33f56b986101076e0b4a24122c8cdfec2fea9e6f[m[33m ([m[1;36mHEAD[m[33m, [m[1;32mwei[m[33m)[m
+Author: weiweilee826 <42629336+weiweilee826@users.noreply.github.com>
+Date:   Wed Mar 4 15:50:24 2020 +0800
+
+    驗證訪問頁面權限
+
+[33mcommit 22a898408a8116d048812c2f732639c362691ea6[m
+Author: weiweilee826 <42629336+weiweilee826@users.noreply.github.com>
+Date:   Wed Mar 4 12:08:59 2020 +0800
+
+    signin page
+
+[33mcommit 45f1d4c9a15a71b34057d4c0bc1b6cb4658f1ec8[m
+Author: weiweilee826 <42629336+weiweilee826@users.noreply.github.com>
+Date:   Wed Mar 4 11:35:40 2020 +0800
+
+    signin router
+
+[33mcommit e5f4b44495d987f212e8d7fed5bb206a305a75f0[m[33m ([m[1;32mpoan[m[33m)[m
+Author: weiweilee826 <42629336+weiweilee826@users.noreply.github.com>
+Date:   Wed Mar 4 01:57:51 2020 +0800
+
+    驗證登入
+
+[33mcommit 5c81072b1707f310bb8b59c06aaedb75290ed053[m
+Author: weiweilee826 <42629336+weiweilee826@users.noreply.github.com>
+Date:   Wed Mar 4 01:50:00 2020 +0800
+
+    login/logout
+
+[33mcommit 60138ed8f10260eb681382af58da39ef4d3a6a31[m
+Author: weiweilee826 <42629336+weiweilee826@users.noreply.github.com>
+Date:   Tue Mar 3 17:13:18 2020 +0800
+
+    router setting
+
+[33mcommit 749901c1d8ad5c3c89de1a096a5d138539d914a3[m
+Author: weiweilee826 <42629336+weiweilee826@users.noreply.github.com>
+Date:   Tue Mar 3 17:10:46 2020 +0800
+
+    dependencies update
+
+[33mcommit 581d118fa4354b945c6cfc4be55797b112526842[m
+Author: weiweilee826 <42629336+weiweilee826@users.noreply.github.com>
+Date:   Mon Mar 2 11:54:31 2020 +0800
+
+    init

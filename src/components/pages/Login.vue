@@ -59,7 +59,7 @@ export default {
         })
         .then(function(response) {
           if (response.data.success) {
-            vm.$router.push("/");
+            vm.$router.push("/admin/product");
           }
         })
         .catch(function(error) {

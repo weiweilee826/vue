@@ -2,6 +2,8 @@ import Login from './components/pages/Login.vue'
 import Index from './components/Index.vue'
 import VueRouter from 'vue-router'
 import axios from 'axios'
+import Dashboard from './components/pages/Dashboard.vue'
+import Product from './components/Product.vue'
 
 
 const routes = [
@@ -15,6 +17,20 @@ const routes = [
     name: 'login',
     path: '/login',
     component: Login
+  },
+  {
+    name: 'dashboard',
+    path: '/admin',
+    component: Dashboard,
+    meta: { requiresAuth: true },
+    children: [
+      {
+        name: 'product',
+        path: 'product',
+        component: Product,
+        meta: { requiresAuth: true }
+      }
+    ]
   },
 ]
 

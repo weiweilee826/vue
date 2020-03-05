@@ -7,6 +7,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import router from './router.js'
+import './assets/dashboard.css'
 
 Vue.config.productionTip = false
 Vue.use(VueRouter)
