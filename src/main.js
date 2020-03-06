@@ -8,13 +8,16 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import VueRouter from 'vue-router'
 import router from './router'
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
 
 Vue.use(VueRouter)
 Vue.use(VueAxios, axios)
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 Vue.config.productionTip = false
-axios.defaults.withCredentials = true;
+axios.defaults.withCredentials = true
+Vue.component('Loading',Loading)
 
 new Vue({
   render: h => h(App),

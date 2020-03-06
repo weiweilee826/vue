@@ -1,8 +1,11 @@
 <template>
   <div>
+    <loading :active.sync="isLoading"></loading>
+
     <div class="text-right mt-4">
       <b-button @click="edit({})">建立新的產品</b-button>
     </div>
+
     <table class="table mt-4">
       <thead>
         <tr>
@@ -48,7 +51,7 @@
             <div class="form-group">
               <label for="customFile"
                 >或 上傳圖片
-                <i class="fas fa-spinner fa-spin"></i>
+                <i class="fas fa-spinner fa-spin" v-if="imgLoading"></i>
               </label>
               <input
                 type="file"
@@ -167,17 +170,21 @@ export default {
     return {
       products: [],
       tempProduct: {},
-      title: ""
+      title: "",
+      isLoading: false,
+      imgLoading: false
     };
   },
   methods: {
     getProduct() {
+      this.isLoading = true;
       const vm = this;
       const API = `${process.env.VUE_APP_HOST}/api/weiwei/admin/products`;
       this.axios
         .get(API)
         .then(function(response) {
           vm.products = response.data.products;
+          vm.isLoading = false;
         })
         .catch(function(error) {
           console.log(error);
@@ -192,8 +199,7 @@ export default {
           .put(API, {
             data: this.tempProduct
           })
-          .then(function(response) {
-            console.log(response);
+          .then(function() {
             vm.getProduct();
             vm.$bvModal.hide("modal-1");
           })
@@ -207,8 +213,7 @@ export default {
           .post(API, {
             data: this.tempProduct
           })
-          .then(function(response) {
-            console.log(response);
+          .then(function() {
             vm.getProduct();
             vm.$bvModal.hide("modal-1");
           })
@@ -223,6 +228,7 @@ export default {
       this.title = product.id ? "修改產品" : "新增產品";
     },
     upload(event) {
+      this.imgLoading = true;
       var formData = new FormData();
       formData.append("file-to-upload", event.target.files[0]);
 
@@ -233,10 +239,10 @@ export default {
           headers: { "Content-Type": "multipart/form-data" }
         })
         .then(function(response) {
-          console.log(response);
           if (response.data.success) {
             vm.$set(vm.tempProduct, "imageUrl", response.data.imageUrl);
           }
+          vm.imgLoading = false;
         })
         .catch(function(error) {
           console.log(error);
