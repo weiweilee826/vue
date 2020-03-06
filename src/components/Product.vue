@@ -1,5 +1,6 @@
 <template>
   <div>
+    <loading :active.sync="isLoading"></loading>
     <div class="text-right mt-4">
       <button class="btn btn-primary" @click="openModal({})">
         建立新的產品
@@ -74,7 +75,7 @@
                 <div class="form-group">
                   <label for="customFile"
                     >或 上傳圖片
-                    <i class="fas fa-spinner fa-spin"></i>
+                    <i class="fas fa-spinner fa-spin" v-if="imgLoading"></i>
                   </label>
                   <input
                     @change="uploadImg"
@@ -253,7 +254,9 @@ export default {
   data() {
     return {
       products: [],
-      tempProduct: {}
+      tempProduct: {},
+      isLoading: false,
+      imgLoading: false
     };
   },
   methods: {
@@ -262,10 +265,12 @@ export default {
       this.tempProduct = product;
     },
     getProducts() {
+      this.isLoading = true;
       this.axios
         .get(`${process.env.VUE_APP_HOST}/api/weiwei/admin/products`)
         .then(response => {
           this.products = response.data.products;
+          this.isLoading = false;
         });
     },
     addProduct() {
@@ -298,6 +303,7 @@ export default {
       }
     },
     uploadImg(event) {
+      this.imgLoading = true;
       var vm = this;
       var file = new FormData();
       file.append("file-to-upload", event.target.files[0]);
@@ -311,6 +317,7 @@ export default {
           if (response.data.success) {
             vm.tempProduct.imageUrl = response.data.imageUrl;
           }
+          vm.imgLoading = false;
         })
         .catch(function(error) {
           console.log(error);

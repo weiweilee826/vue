@@ -9,7 +9,9 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import router from './router.js'
 import './assets/dashboard.css'
+import Loading from 'vue-loading-overlay';
 
+Vue.component('Loading',Loading)
 Vue.config.productionTip = false
 Vue.use(VueRouter)
 Vue.use(BootstrapVue)
