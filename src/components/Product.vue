@@ -77,6 +77,7 @@
                     <i class="fas fa-spinner fa-spin"></i>
                   </label>
                   <input
+                    @change="uploadImg"
                     type="file"
                     id="customFile"
                     class="form-control"
@@ -284,14 +285,36 @@ export default {
           });
       } else {
         this.axios
-          .put(`${process.env.VUE_APP_HOST}/api/weiwei/admin/product/${vm.tempProduct.id}`, {
-            data: vm.tempProduct
-          })
+          .put(
+            `${process.env.VUE_APP_HOST}/api/weiwei/admin/product/${vm.tempProduct.id}`,
+            {
+              data: vm.tempProduct
+            }
+          )
           .then(response => {
             $("#productModal").modal("hide");
             console.log(response);
           });
       }
+    },
+    uploadImg(event) {
+      var vm = this;
+      var file = new FormData();
+      file.append("file-to-upload", event.target.files[0]);
+
+      this.axios
+        .post(`${process.env.VUE_APP_HOST}/api/weiwei/admin/upload`, file, {
+          headers: { "Content-Type": "multipart/form-data" }
+        })
+        .then(function(response) {
+          console.log(1, response);
+          if (response.data.success) {
+            vm.tempProduct.imageUrl = response.data.imageUrl;
+          }
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     }
   },
   created() {
