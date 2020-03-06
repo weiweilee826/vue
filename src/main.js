@@ -18,6 +18,7 @@ Vue.use(IconsPlugin)
 Vue.config.productionTip = false
 axios.defaults.withCredentials = true
 Vue.component('Loading',Loading)
+Vue.prototype.$bus = new Vue()
 
 new Vue({
   render: h => h(App),

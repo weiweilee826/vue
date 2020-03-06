@@ -183,7 +183,11 @@ export default {
       this.axios
         .get(API)
         .then(function(response) {
-          vm.products = response.data.products;
+          if (response.data.success) {
+            vm.products = response.data.products;
+          } else {
+            vm.$bus.$emit("pop", response.data.messages, "danger");
+          }
           vm.isLoading = false;
         })
         .catch(function(error) {
@@ -199,8 +203,12 @@ export default {
           .put(API, {
             data: this.tempProduct
           })
-          .then(function() {
-            vm.getProduct();
+          .then(function(response) {
+            if (response.data.success) {
+              vm.getProduct();
+            } else {
+              vm.$bus.$emit("pop", response.data.message, "danger");
+            }
             vm.$bvModal.hide("modal-1");
           })
           .catch(function(error) {
@@ -213,8 +221,12 @@ export default {
           .post(API, {
             data: this.tempProduct
           })
-          .then(function() {
-            vm.getProduct();
+          .then(function(response) {
+            if (response.data.success) {
+              vm.getProduct();
+            } else {
+              vm.$bus.$emit("pop", response.data.message, "danger");
+            }
             vm.$bvModal.hide("modal-1");
           })
           .catch(function(error) {
@@ -239,8 +251,11 @@ export default {
           headers: { "Content-Type": "multipart/form-data" }
         })
         .then(function(response) {
+          console.log(response)
           if (response.data.success) {
             vm.$set(vm.tempProduct, "imageUrl", response.data.imageUrl);
+          } else {
+            vm.$bus.$emit("pop", response.data.message, "danger");
           }
           vm.imgLoading = false;
         })

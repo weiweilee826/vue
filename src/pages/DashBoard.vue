@@ -1,6 +1,7 @@
 <template>
   <div>
     <Nav />
+    <Alert/>
     <div class="container-fluid">
       <div class="row">
         <Side />
@@ -15,8 +16,9 @@
 <script>
 import Nav from "./Nav.vue";
 import Side from "./Side.vue";
+import Alert from "../components/Alert.vue";
 export default {
-  components: {Nav, Side}
+  components: { Alert,Nav, Side, }
 };
 </script>
 
