@@ -11,7 +11,7 @@ import router from './router.js'
 import './assets/dashboard.css'
 import Loading from 'vue-loading-overlay';
 
-Vue.component('Loading',Loading)
+Vue.component('Loading', Loading)
 Vue.config.productionTip = false
 Vue.use(VueRouter)
 Vue.use(BootstrapVue)
@@ -19,7 +19,10 @@ Vue.use(IconsPlugin)
 Vue.use(VueAxios, axios)
 axios.defaults.withCredentials = true;
 
+Vue.prototype.$bus = new Vue();
+
 new Vue({
   render: h => h(App),
   router
 }).$mount('#app')
+

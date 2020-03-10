@@ -269,6 +269,9 @@ export default {
       this.axios
         .get(`${process.env.VUE_APP_HOST}/api/weiwei/admin/products`)
         .then(response => {
+          if (!response.data.success) {
+            this.$bus.$emit('send','xxx','danger');
+        }
           this.products = response.data.products;
           this.isLoading = false;
         });
