@@ -26,6 +26,11 @@ const router = new VueRouter({
           component: Product,
           meta: { requiresAuth: true }
         },
+        {
+          path: 'product/:page',
+          component: Product,
+          meta: { requiresAuth: true }
+        },
       ],
     },
     {

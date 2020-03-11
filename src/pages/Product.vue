@@ -6,33 +6,26 @@
       <b-button @click="edit({})">建立新的產品</b-button>
     </div>
 
-    <table class="table mt-4">
-      <thead>
-        <tr>
-          <th width="120">分類</th>
-          <th width="120">產品名稱</th>
-          <th width="120">原價</th>
-          <th width="120">售價</th>
-          <th width="100">是否啟用</th>
-          <th width="80">編輯</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="product in products" :key="product.id">
-          <td>{{ product.category }}</td>
-          <td>{{ product.title }}</td>
-          <td>{{ product.origin_price }}</td>
-          <td>{{ product.price }}</td>
-          <td>
-            <span v-if="product.is_enabled">已啟用</span>
-            <span v-else>未啟用</span>
-          </td>
-          <td>
-            <b-button v-b-modal.modal-1 @click="edit(product)">編輯</b-button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <b-table striped hover :items="products" :fields="fields">
+      <template v-slot:cell(is_enabled)="product">
+        <span v-if="product.item.is_enabled">已啟用</span>
+        <span v-else>未啟用</span>
+      </template>
+      <template v-slot:cell(edit)="product">
+        <b-button size="sm" @click="edit(product.item)" class="mr-2">
+          編輯
+        </b-button>
+        <b-button size="sm" @click="del(product.item)" class="mr-2">
+          刪除
+        </b-button>
+      </template>
+    </b-table>
+
+    <b-pagination-nav
+      :link-gen="linkGen"
+      :number-of-pages="totalPages"
+      use-router
+    ></b-pagination-nav>
 
     <b-modal id="modal-1" :title="title" @ok="editOk">
       <div class="modal-body">
@@ -168,25 +161,35 @@
 export default {
   data() {
     return {
-      products: [],
       tempProduct: {},
       title: "",
       isLoading: false,
-      imgLoading: false
+      imgLoading: false,
+      totalPages: 1,
+      products: [],
+      fields: [
+        { key: "category", label: "分類" },
+        { key: "title", label: "產品名稱" },
+        { key: "origin_price", label: "原價" },
+        { key: "price", label: "售價" },
+        { key: "is_enabled", label: "是否啟用" },
+        { key: "edit", label: "操作" }
+      ]
     };
   },
   methods: {
-    getProduct() {
+    getProduct(page) {
       this.isLoading = true;
       const vm = this;
-      const API = `${process.env.VUE_APP_HOST}/api/weiwei/admin/products`;
+      const API = `${process.env.VUE_APP_HOST}/api/wwlee/admin/products?page=${page}`;
       this.axios
         .get(API)
         .then(function(response) {
           if (response.data.success) {
             vm.products = response.data.products;
+            vm.totalPages = response.data.pagination.total_pages;
           } else {
-            vm.$bus.$emit("pop", response.data.messages, "danger");
+            vm.$bus.$emit("pop", response.data.message, "danger");
           }
           vm.isLoading = false;
         })
@@ -198,7 +201,7 @@ export default {
       var vm = this;
       if (this.tempProduct.id) {
         // 修改
-        const API = `${process.env.VUE_APP_HOST}/api/weiwei/admin/product/${this.tempProduct.id}`;
+        const API = `${process.env.VUE_APP_HOST}/api/wwlee/admin/product/${this.tempProduct.id}`;
         this.axios
           .put(API, {
             data: this.tempProduct
@@ -216,7 +219,7 @@ export default {
           });
       } else {
         // 新增
-        const API = `${process.env.VUE_APP_HOST}/api/weiwei/admin/product`;
+        const API = `${process.env.VUE_APP_HOST}/api/wwlee/admin/product`;
         this.axios
           .post(API, {
             data: this.tempProduct
@@ -245,13 +248,12 @@ export default {
       formData.append("file-to-upload", event.target.files[0]);
 
       var vm = this;
-      const API = `${process.env.VUE_APP_HOST}/api/weiwei/admin/upload`;
+      const API = `${process.env.VUE_APP_HOST}/api/wwlee/admin/upload`;
       this.axios
         .post(API, formData, {
           headers: { "Content-Type": "multipart/form-data" }
         })
         .then(function(response) {
-          console.log(response)
           if (response.data.success) {
             vm.$set(vm.tempProduct, "imageUrl", response.data.imageUrl);
           } else {
@@ -262,10 +264,34 @@ export default {
         .catch(function(error) {
           console.log(error);
         });
+    },
+    linkGen(pageNum) {
+      return `/dashboard/product` + (pageNum === 1 ? `` : `/${pageNum}`);
+    },
+    del(product) {
+      var vm = this;
+      const API = `${process.env.VUE_APP_HOST}/api/wwlee/admin/product/${product.id}`;
+      this.axios
+        .delete(API)
+        .then(function(response) {
+          if (response.data.success) {
+            vm.getProduct();
+          } else {
+            vm.$bus.$emit("pop", response.data.message, "danger");
+          }
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     }
   },
   created() {
-    this.getProduct();
+    this.getProduct(this.$route.params.page);
+  },
+  watch: {
+    $route() {
+      this.getProduct(this.$route.params.page);
+    }
   }
 };
 </script>
