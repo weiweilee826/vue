@@ -10,7 +10,7 @@
       />
       <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
-          <a class="nav-link" href="#">Sign out</a>
+          <a class="nav-link" href="#" @click.prevent="signOut">Sign out</a>
         </li>
       </ul>
     </nav>
@@ -18,7 +18,26 @@
 </template>
 
 <script>
-export default {};
+export default {
+  methods:{
+    signOut(){
+      const API = `${process.env.VUE_APP_HOST}/logout`;
+      var vm = this;
+      this.axios
+        .post(API)
+        .then(function(response) {
+          if (response.data.success) {
+            vm.$router.push("/login");
+          } else {
+            vm.$bus.$emit('pop',response.data.message);
+          }
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    }
+  }
+};
 </script>
 
 <style></style>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form class="form-signin" @submit="login">
+    <form class="form-signin" @submit.prevent="login">
       <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
       <label for="inputEmail" class="sr-only">Email address</label>
       <input
@@ -54,7 +54,7 @@ export default {
           if (response.data.success) {
             vm.$router.push("/dashboard/product");
           } else {
-            console.log(123);
+            vm.$bus.$emit('pop',response.data.message);
           }
         })
         .catch(function(error) {
