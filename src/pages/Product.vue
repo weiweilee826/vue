@@ -7,6 +7,12 @@
     </div>
 
     <b-table striped hover :items="products" :fields="fields">
+      <template v-slot:cell(origin_price)="product">
+        {{ product.item.origin_price | price }}
+      </template>
+      <template v-slot:cell(price)="product">
+        {{ product.item.price | price }}
+      </template>
       <template v-slot:cell(is_enabled)="product">
         <span v-if="product.item.is_enabled">已啟用</span>
         <span v-else>未啟用</span>
