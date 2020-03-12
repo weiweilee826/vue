@@ -3,6 +3,7 @@ import Login from './pages/Login'
 import DashBoard from './pages/DashBoard'
 import Product from './pages/Product'
 import Home from './pages/Home'
+import Order from './pages/Order'
 import axios from 'axios'
 
 const router = new VueRouter({
@@ -29,6 +30,11 @@ const router = new VueRouter({
         {
           path: 'product/:page',
           component: Product,
+          meta: { requiresAuth: true }
+        },
+        {
+          path: 'order',
+          component: Order,
           meta: { requiresAuth: true }
         },
       ],
