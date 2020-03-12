@@ -6,36 +6,24 @@
         建立新的產品
       </button>
     </div>
-    <table class="table mt-4">
-      <thead>
-        <tr>
-          <th width="120">分類</th>
-          <th width="120">產品名稱</th>
-          <th width="120">原價</th>
-          <th width="120">售價</th>
-          <th width="100">是否啟用</th>
-          <th width="80">編輯</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(product, idx) in products" :key="idx">
-          <td>{{ product.category }}</td>
-          <td>{{ product.title }}</td>
-          <td>{{ product.origin_price }}</td>
-          <td>{{ product.price }}</td>
-          <td v-if="product.is_enabled">已啟用</td>
-          <td v-else>未啟用</td>
-          <td>
-            <button
-              class="btn btn-outline-primary btn-sm"
-              @click="openModal(product)"
-            >
-              編輯
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <b-table striped hover :items="products" :fields="fields">
+      <template v-slot:cell(is_enabled)="product">
+        <div v-if="product.item.is_enabled">已啟用</div>
+        <div v-else>未啟用</div>
+      </template>
+      <template v-slot:cell(edit)="product">
+        <b-button size="sm" @click="openModal(product.item)" class="mr-2">
+          編輯
+        </b-button>
+      </template>
+    </b-table>
+    <div class="overflow-auto">
+      <b-pagination-nav
+        :link-gen="linkGen"
+        :number-of-pages="totalPage"
+        use-router
+      ></b-pagination-nav>
+    </div>
     <div
       class="modal fade"
       id="productModal"
@@ -256,7 +244,34 @@ export default {
       products: [],
       tempProduct: {},
       isLoading: false,
-      imgLoading: false
+      imgLoading: false,
+      fields: [
+        {
+          key: "category",
+          label: "分類"
+        },
+        {
+          key: "title",
+          label: "產品名稱"
+        },
+        {
+          key: "origin_price",
+          label: "原價"
+        },
+        {
+          key: "price",
+          label: "售價"
+        },
+        {
+          key: "is_enabled",
+          label: "是否啟用"
+        },
+        {
+          key: "edit",
+          label: "編輯"
+        }
+      ],
+      totalPage: 1
     };
   },
   methods: {
@@ -265,13 +280,17 @@ export default {
       this.tempProduct = product;
     },
     getProducts() {
+      var vm = this;
       this.isLoading = true;
       this.axios
-        .get(`${process.env.VUE_APP_HOST}/api/weiwei/admin/products`)
+        .get(
+          `${process.env.VUE_APP_HOST}/api/wwlee/admin/products?page=${vm.$route.params.page}`
+        )
         .then(response => {
+          vm.totalPage = response.data.pagination.total_pages;
           if (!response.data.success) {
-            this.$bus.$emit('send','xxx','danger');
-        }
+            this.$bus.$emit("send", "xxx", "danger");
+          }
           this.products = response.data.products;
           this.isLoading = false;
         });
@@ -280,7 +299,7 @@ export default {
       var vm = this;
       if (this.tempProduct.id == undefined) {
         this.axios
-          .post(`${process.env.VUE_APP_HOST}/api/weiwei/admin/product`, {
+          .post(`${process.env.VUE_APP_HOST}/api/wwlee/admin/product`, {
             data: vm.tempProduct
           })
           .then(response => {
@@ -294,7 +313,7 @@ export default {
       } else {
         this.axios
           .put(
-            `${process.env.VUE_APP_HOST}/api/weiwei/admin/product/${vm.tempProduct.id}`,
+            `${process.env.VUE_APP_HOST}/api/wwlee/admin/product/${vm.tempProduct.id}`,
             {
               data: vm.tempProduct
             }
@@ -312,7 +331,7 @@ export default {
       file.append("file-to-upload", event.target.files[0]);
 
       this.axios
-        .post(`${process.env.VUE_APP_HOST}/api/weiwei/admin/upload`, file, {
+        .post(`${process.env.VUE_APP_HOST}/api/wwlee/admin/upload`, file, {
           headers: { "Content-Type": "multipart/form-data" }
         })
         .then(function(response) {
@@ -325,6 +344,14 @@ export default {
         .catch(function(error) {
           console.log(error);
         });
+    },
+    linkGen(pageNum) {
+      return pageNum === 1 ? `` : `/admin/product/${pageNum}`;
+    }
+  },
+  watch: {
+    $route() {
+      this.getProducts();
     }
   },
   created() {
