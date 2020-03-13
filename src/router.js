@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 import axios from 'axios'
 import Dashboard from './components/pages/Dashboard.vue'
 import Product from './components/Product.vue'
+import CustomerOrder from './components/pages/CustomerOrder.vue'
 
 
 const routes = [
@@ -38,6 +39,19 @@ const routes = [
       }
     ]
   },
+  {
+    name: 'Dashboard',
+    path: '/',
+    component: Dashboard,
+    children: [
+      {
+        name: 'CustomerOrder',
+        path: 'customer_order',
+        component: CustomerOrder,
+      }
+    ]
+  },
+
 ]
 
 const router = new VueRouter({
