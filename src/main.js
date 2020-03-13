@@ -10,6 +10,7 @@ import VueAxios from 'vue-axios'
 import router from './router.js'
 import './assets/dashboard.css'
 import Loading from 'vue-loading-overlay';
+import toThousands from './components/filters/toThousands.js';
 
 Vue.component('Loading', Loading)
 Vue.config.productionTip = false
@@ -17,6 +18,7 @@ Vue.use(VueRouter)
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 Vue.use(VueAxios, axios)
+Vue.filter('toThousands', toThousands)
 axios.defaults.withCredentials = true;
 
 Vue.prototype.$bus = new Vue();

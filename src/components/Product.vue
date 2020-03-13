@@ -6,7 +6,17 @@
         建立新的產品
       </button>
     </div>
+
     <b-table striped hover :items="products" :fields="fields">
+
+      <template v-slot:cell(origin_price)="product">
+        <div>{{ product.item.origin_price | toThousands }}</div>
+      </template>
+
+      <template v-slot:cell(price)="product">
+        <div>{{ product.item.price | toThousands }}</div>
+      </template>
+
       <template v-slot:cell(is_enabled)="product">
         <div v-if="product.item.is_enabled">已啟用</div>
         <div v-else>未啟用</div>
@@ -17,6 +27,7 @@
         </b-button>
       </template>
     </b-table>
+
     <div class="overflow-auto">
       <b-pagination-nav
         :link-gen="linkGen"
@@ -356,7 +367,7 @@ export default {
   },
   created() {
     this.getProducts();
-  }
+  },
 };
 </script>
 
