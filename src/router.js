@@ -4,6 +4,7 @@ import DashBoard from './pages/DashBoard'
 import Product from './pages/Product'
 import Home from './pages/Home'
 import Order from './pages/Order'
+import Cart from './pages/Cart'
 import axios from 'axios'
 
 const router = new VueRouter({
@@ -15,27 +16,32 @@ const router = new VueRouter({
     {
       path: '/',
       component: Home,
-      meta: { requiresAuth: true }
+      // meta: { requiresAuth: true }
     },
     {
       path: '/dashboard',
       component: DashBoard,
-      meta: { requiresAuth: true },
+      // meta: { requiresAuth: true },
       children: [
         {
           path: 'product',
           component: Product,
-          meta: { requiresAuth: true }
+          // meta: { requiresAuth: true }
         },
         {
           path: 'product/:page',
           component: Product,
-          meta: { requiresAuth: true }
+          // meta: { requiresAuth: true }
         },
         {
           path: 'order',
           component: Order,
-          meta: { requiresAuth: true }
+          // meta: { requiresAuth: true }
+        },
+        {
+          path: 'cart',
+          component: Cart,
+          // meta: { requiresAuth: true }
         },
       ],
     },

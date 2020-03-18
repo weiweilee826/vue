@@ -8,6 +8,9 @@
         placeholder="Search"
         aria-label="Search"
       />
+      <router-link to="/dashboard/cart">
+        <i class="fas fa-shopping-cart nav-link" style="color:white"
+      /></router-link>
       <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
           <a class="nav-link" href="#" @click.prevent="signOut">Sign out</a>

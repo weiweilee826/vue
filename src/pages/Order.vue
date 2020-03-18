@@ -27,7 +27,11 @@
             @click="getProduct(product.id)"
             >查看更多</b-button
           >
-          <b-button href="#" variant="primary" class="card-link"
+          <b-button
+            href="#"
+            variant="primary"
+            class="card-link"
+            @click="addCart(product.id,1)"
             >加入購物車</b-button
           >
         </template>
@@ -64,9 +68,8 @@
         <button
           type="button"
           class="btn btn-primary"
-          @click="addtoCart(product.id, product.num)"
+          @click="addCart(product.id, product.qty)"
         >
-          <i class="fas fa-spinner fa-spin"></i>
           加到購物車
         </button>
       </template>
@@ -110,11 +113,28 @@ export default {
           if (response.data.success) {
             // response.data.product.qty = 1;
             vm.product = response.data.product;
-            vm.$set(vm.product, 'qty', 1)
+            vm.$set(vm.product, "qty", 1);
             vm.$bvModal.show("modal");
           } else {
             vm.$bus.$emit("pop", response.data.message, "danger");
           }
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    },
+    addCart(id,qty) {
+      const vm = this;
+      const API = `${process.env.VUE_APP_HOST}/api/wwlee/cart`;
+      this.axios
+        .post(API, { data: { product_id: id, qty: qty } })
+        .then(function(response) {
+          if (response.data.success) {
+            vm.$bus.$emit("pop", response.data.message, "success");
+          } else {
+            vm.$bus.$emit("pop", response.data.message, "danger");
+          }
+          vm.$bvModal.hide("modal");
         })
         .catch(function(error) {
           console.log(error);
