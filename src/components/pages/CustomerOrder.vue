@@ -35,7 +35,11 @@
               <!-- <i class="fas fa-spinner fa-spin"></i> -->
               查看更多
             </button>
-            <button type="button" class="btn btn-outline-danger btn-sm ml-auto">
+            <button
+              type="button"
+              class="btn btn-outline-danger btn-sm ml-auto"
+              @click="addToCart(product.id, product.num)"
+            >
               <!-- <i class="fas fa-spinner fa-spin"></i> -->
               加到購物車
             </button>
@@ -78,7 +82,7 @@
         <button
           type="button"
           class="btn btn-primary"
-          @click="addtoCart(product.id, product.num)"
+          @click="addToCart(product.id, product.num)"
         >
           <i class="fas fa-spinner fa-spin"></i>
           加到購物車
@@ -114,7 +118,16 @@ export default {
         .then(response => {
           vm.product = response.data.product;
           vm.$set(vm.product, "qty", 1);
-          console.log(vm.product);
+        });
+    },
+    addToCart(id, qty) {
+      // var vm = this;
+      this.axios
+        .post(`${process.env.VUE_APP_HOST}/api/wwlee/cart`, {
+          data: { 'product_id': id, 'qty': qty }
+        })
+        .then(response => {
+          console.log(response);
         });
     }
   },

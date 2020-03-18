@@ -5,6 +5,7 @@ import axios from 'axios'
 import Dashboard from './components/pages/Dashboard.vue'
 import Product from './components/Product.vue'
 import CustomerOrder from './components/pages/CustomerOrder.vue'
+import Cart from "./components/pages/Cart.vue";
 
 
 const routes = [
@@ -36,7 +37,12 @@ const routes = [
         path: 'product/:page',
         component: Product,
         // meta: { requiresAuth: true }
-      }
+      },
+      {
+        name: 'Cart',
+        path: '/cart',
+        component: Cart,
+      },
     ]
   },
   {
@@ -51,6 +57,9 @@ const routes = [
       }
     ]
   },
+ 
+  
+
 
 ]
 
