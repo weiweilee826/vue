@@ -5,6 +5,7 @@ import Product from './pages/Product'
 import Home from './pages/Home'
 import Order from './pages/Order'
 import Cart from './pages/Cart'
+import Coupon from './pages/Coupon'
 import axios from 'axios'
 
 const router = new VueRouter({
@@ -41,6 +42,16 @@ const router = new VueRouter({
         {
           path: 'cart',
           component: Cart,
+          // meta: { requiresAuth: true }
+        },
+        {
+          path: 'coupon',
+          component: Coupon,
+          // meta: { requiresAuth: true }
+        },
+        {
+          path: 'coupon/:page',
+          component: Coupon,
           // meta: { requiresAuth: true }
         },
       ],

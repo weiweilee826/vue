@@ -27,7 +27,7 @@
                 </div> -->
           </td>
           <td class="align-middle">{{ item.qty }}/{{ item.product.unit }}</td>
-          <td class="align-middle text-right">{{ item.final_total }}</td>
+          <td class="align-middle text-right">{{ item.total }}</td>
         </tr>
       </tbody>
       <tfoot>
@@ -38,6 +38,16 @@
         <tr v-if="final_total !== total">
           <td colspan="3" class="text-right text-success">折扣價</td>
           <td class="text-right text-success">{{ final_total }}</td>
+        </tr>
+        <tr>
+          <td colspan="4">
+            <b-input-group prepend="折扣碼">
+              <b-form-input v-model="code" />
+              <b-input-group-append>
+                <b-button variant="success" @click="useCoupon">套用</b-button>
+              </b-input-group-append>
+            </b-input-group>
+          </td>
         </tr>
       </tfoot>
     </table>
@@ -51,7 +61,17 @@ export default {
       carts: {},
       total: 0,
       final_total: 0,
-      isLoading: false
+      isLoading: false,
+      code: "",
+      form: {
+        user: {
+          name: "test",
+          email: "test@gmail.com",
+          tel: "0912346768",
+          address: "kaohsiung"
+        },
+        message: "這是留言" 
+      }
     };
   },
   methods: {
@@ -90,7 +110,28 @@ export default {
         .catch(function(error) {
           console.log(error);
         });
-    }
+    },
+    useCoupon() {
+      const vm = this;
+      const API = `${process.env.VUE_APP_HOST}/api/wwlee/coupon`;
+      this.axios
+        .post(API, {
+          data: {
+            code: vm.code
+          }
+        })
+        .then(function(response) {
+          if (response.data.success) {
+            vm.getCart();
+          } else {
+            vm.$bus.$emit("pop", response.data.message, "danger");
+          }
+          vm.isLoading = false;
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    },
   },
   created() {
     this.getCart();
