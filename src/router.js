@@ -5,6 +5,7 @@ import Product from "./pages/Product";
 import Order from "./pages/Order";
 import Cart from "./pages/Cart";
 import Coupon from "./pages/Coupon";
+import Checkout from "./pages/Checkout";
 import axios from "axios";
 
 const router = new VueRouter({
@@ -51,7 +52,12 @@ const router = new VueRouter({
           path: "coupon/:page",
           component: Coupon
           // meta: { requiresAuth: true }
-        }
+        },
+        {
+          path: "checkout/:id",
+          component: Checkout
+          // meta: { requiresAuth: true }
+        },
       ]
     }
   ]

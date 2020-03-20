@@ -230,9 +230,8 @@ export default {
       this.axios
         .post(API, { data: vm.form })
         .then(function(response) {
-          console.log(response)
           if (response.data.success) {
-            vm.$bus.$emit("pop", response.data.message, "success");
+            vm.$router.push(`/checkout/${response.data.orderId}`)
           } else {
             vm.$bus.$emit("pop", response.data.message, "danger");
           }
