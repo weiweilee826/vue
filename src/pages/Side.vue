@@ -9,7 +9,7 @@
         </h6>
         <ul class="nav flex-column mb-2">
           <li class="nav-item">
-            <router-link to="/dashboard/product" class="nav-link" href="#">
+            <router-link to="/product" class="nav-link" href="#">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -34,7 +34,7 @@
             </router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/dashboard/coupon" class="nav-link" href="#">
+            <router-link to="/coupon" class="nav-link" href="#">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -66,7 +66,7 @@
         </h6>
         <ul class="nav flex-column mb-2">
           <li class="nav-item">
-            <router-link to="/dashboard/order" class="nav-link" href="#">
+            <router-link to="/order" class="nav-link" href="#">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"

@@ -128,7 +128,6 @@ export default {
       this.axios
         .get(API)
         .then(function(response) {
-          console.log(response)
           vm.items = response.data.coupons;
           vm.totalPage = response.data.pagination.total_pages;
           if (!response.data.success) {

@@ -14,12 +14,9 @@ export default {
       this.axios
         .post(API)
         .then(function(response) {
-          console.log(response);
           if (response.data.success) {
             vm.$router.push("/login");
-          } else {
-            console.log(123);
-          }
+          } 
         })
         .catch(function(error) {
           console.log(error);

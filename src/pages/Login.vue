@@ -52,7 +52,7 @@ export default {
         .post(API, this.data)
         .then(function(response) {
           if (response.data.success) {
-            vm.$router.push("/dashboard/product");
+            vm.$router.push("/");
           } else {
             vm.$bus.$emit('pop',response.data.message);
           }
