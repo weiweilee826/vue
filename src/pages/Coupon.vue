@@ -40,7 +40,7 @@
         <b-form-group id="input-group-3" label="Due Date:" label-for="input-3">
           <b-form-datepicker
             id="example-datepicker"
-            v-model="form.datepicker"
+            v-model="datepicker"
             class="mb-2"
             value-as-date
           ></b-form-datepicker>
@@ -85,10 +85,10 @@ export default {
         title: "title",
         is_enabled: 1,
         due_date: Math.floor(new Date().getTime() / 1000),
-        datepicker: new Date(),
         code: "aaa",
         percent: 100
       },
+      datepicker: new Date(),
       fields: [
         {
           key: "title",
@@ -100,7 +100,7 @@ export default {
         },
         {
           key: "due_date",
-          label: "有效日期",
+          label: "有效日期"
           // formatter: value =>
           //   new Date(value * 1000).toISOString().replace(/(?=T).*/g, "")
         },
@@ -217,12 +217,12 @@ export default {
     },
     "form.due_date": function() {
       var datepicker = new Date(this.form.due_date * 1000);
-      if (datepicker !== this.form.datepicker) {
-        this.form.datepicker = datepicker;
+      if (datepicker !== this.datepicker) {
+        this.datepicker = datepicker;
       }
     },
-    "form.datepicker": function() {
-      var due_date = Math.floor(this.form.datepicker.getTime() / 1000);
+    "datepicker": function() {
+      var due_date = Math.floor(this.datepicker.getTime() / 1000);
       if (due_date !== this.form.due_date) {
         this.form.due_date = due_date;
       }

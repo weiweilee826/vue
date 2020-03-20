@@ -51,8 +51,8 @@
         </tr>
       </tfoot>
     </table>
-    <ValidationObserver v-slot="{ handleSubmit ,invalid}">
-      <b-form @submit.prevent="handleSubmit(onSubmit)">
+    <ValidationObserver v-slot="{ handleSubmit, invalid }">
+      <b-form @submit.prevent="handleSubmit(order)">
         <ValidationProvider
           name="姓名"
           rules="required"
@@ -135,7 +135,9 @@
             }}</b-form-invalid-feedback>
           </b-form-group>
         </ValidationProvider>
-        <b-button :disabled="invalid" type="submit" variant="primary">Submit</b-button>
+        <b-button :disabled="invalid" type="submit" variant="primary"
+          >Submit</b-button
+        >
       </b-form>
     </ValidationObserver>
   </div>
@@ -221,6 +223,23 @@ export default {
     },
     onSubmit() {
       console.log(this.form);
+    },
+    order() {
+      const vm = this;
+      const API = `${process.env.VUE_APP_HOST}/api/wwlee/order`;
+      this.axios
+        .post(API, { data: vm.form })
+        .then(function(response) {
+          console.log(response)
+          if (response.data.success) {
+            vm.$bus.$emit("pop", response.data.message, "success");
+          } else {
+            vm.$bus.$emit("pop", response.data.message, "danger");
+          }
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     }
   },
   created() {
