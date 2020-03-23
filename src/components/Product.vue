@@ -1,14 +1,13 @@
 <template>
   <div>
     <loading :active.sync="isLoading"></loading>
-    <div class="text-right mt-4">
+    <div class="text-right m-4">
       <button class="btn btn-primary" @click="openModal({})">
         建立新的產品
       </button>
     </div>
 
     <b-table striped hover :items="products" :fields="fields">
-
       <template v-slot:cell(origin_price)="product">
         <div>{{ product.item.origin_price | toThousands }}</div>
       </template>
@@ -24,6 +23,13 @@
       <template v-slot:cell(edit)="product">
         <b-button size="sm" @click="openModal(product.item)" class="mr-2">
           編輯
+        </b-button>
+        <b-button
+          size="sm"
+          @click="deleteModal(product.item.id)"
+          class="mr-2 btn btn-danger"
+        >
+          刪除
         </b-button>
       </template>
     </b-table>
@@ -358,6 +364,14 @@ export default {
     },
     linkGen(pageNum) {
       return pageNum === 1 ? `` : `/admin/product/${pageNum}`;
+    },
+    deleteModal(id) {
+      this.axios
+        .delete(`${process.env.VUE_APP_HOST}/api/wwlee/admin/product/${id}`)
+        .then(response => {
+          console.log(response);
+          this.getProducts();
+        });
     }
   },
   watch: {
@@ -367,7 +381,7 @@ export default {
   },
   created() {
     this.getProducts();
-  },
+  }
 };
 </script>
 
