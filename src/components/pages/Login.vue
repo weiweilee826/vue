@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form class="form-signin" @submit="login">
+    <form class="form-signin" @submit.prevent="login">
       <img
         class="mb-4"
         src="/docs/4.4/assets/brand/bootstrap-solid.svg"
