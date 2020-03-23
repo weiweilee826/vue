@@ -30,6 +30,7 @@
             <td class="align-middle text-right">{{ item.final_total }}</td>
           </tr>
         </tbody>
+
         <tfoot>
           <tr>
             <td colspan="3" class="text-right">總計</td>
@@ -41,6 +42,116 @@
           </tr>
         </tfoot>
       </table>
+
+      <!-- 套用優惠碼 -->
+      <div class="input-group mb-2">
+        <input
+          type="text"
+          class="form-control "
+          placeholder="請輸入優惠碼"
+          aria-describedby="basic-addon2"
+          v-model="discountCode"
+        />
+        <div class="input-group-append">
+          <button
+            class="btn btn-outline-success"
+            type="button"
+            @click="discount"
+          >
+            套用優惠碼
+          </button>
+        </div>
+      </div>
+
+      <!-- 個人資訊 -->
+      <ValidationObserver v-slot="{ handleSubmit }">
+          <b-form @submit.prevent="handleSubmit(orderInfo)">
+            <!-- 姓名 -->
+            <ValidationProvider
+              name="姓名"
+              rules="required"
+              v-slot="{ errors, valid }"
+            >
+              <b-form-group id="input-group-1" label="姓名" label-for="input-1">
+                <b-form-input
+                  v-model="form.name"
+                  id="input-1"
+                  placeholder="請輸入姓名"
+                  :state="valid"
+                ></b-form-input>
+                <b-form-invalid-feedback id="input-1">
+                  {{ errors[0] }}
+                </b-form-invalid-feedback>
+              </b-form-group>
+            </ValidationProvider>
+
+            <!-- 郵件 -->
+            <ValidationProvider
+              name="郵件"
+              rules="email|required"
+              v-slot="{ errors, valid }"
+            >
+              <b-form-group id="input-group-2" label="郵件" label-for="input-2">
+                <b-form-input
+                  v-model="form.email"
+                  id="input-2"
+                  placeholder="請輸入郵件"
+                  :state="valid"
+                >
+                </b-form-input>
+                <b-form-invalid-feedback id="input-2">
+                  {{ errors[0] }}
+                </b-form-invalid-feedback>
+              </b-form-group>
+            </ValidationProvider>
+
+            <!-- 電話 -->
+            <ValidationProvider
+              name="電話"
+              rules="required"
+              v-slot="{ errors, valid }"
+            >
+              <b-form-group id="input-group-3" label="電話" label-for="input-3">
+                <b-form-input
+                  v-model="form.tel"
+                  id="input-3"
+                  placeholder="請輸入電話"
+                  :state="valid"
+                >
+                </b-form-input>
+                <b-form-invalid-feedback id="input-3">
+                  {{ errors[0] }}
+                </b-form-invalid-feedback>
+              </b-form-group>
+            </ValidationProvider>
+
+            <!-- 地址 -->
+            <ValidationProvider
+              name="地址"
+              rules="required"
+              v-slot="{ errors, valid }"
+            >
+              <b-form-group id="input-group-4" label="地址" label-for="input-4">
+                <b-form-input
+                  v-model="form.address"
+                  id="input-4"
+                  placeholder="請輸入地址"
+                  :state="valid"
+                >
+                </b-form-input>
+                <b-form-invalid-feedback id="input-4">
+                  {{ errors[0] }}
+                </b-form-invalid-feedback>
+              </b-form-group>
+            </ValidationProvider>
+
+            <b-form-group id="input-group-5" label="備註" label-for="input-5">
+              <b-form-input id="input-5" v-model="message"></b-form-input>
+            </b-form-group>
+
+            <b-button type="submit" variant="primary">送出</b-button>
+          </b-form>
+      </ValidationObserver>
     </div>
   </div>
 </template>
@@ -49,8 +160,17 @@
 export default {
   data() {
     return {
+      form: {
+        name: "",
+        email: "",
+        tel: "",
+        address: ""
+      },
+      message: "",
       cart: {},
-      isLoading: false
+      discountCode: "",
+      isLoading: false,
+      personalInfo: {}
     };
   },
   methods: {
@@ -71,6 +191,32 @@ export default {
           console.log(response);
           this.getCartProducts();
         });
+    },
+    discount() {
+      var vm = this;
+      this.axios
+        .post(`${process.env.VUE_APP_HOST}/api/wwlee/coupon`, {
+          data: {
+            code: vm.discountCode
+          }
+        })
+        .then(response => {
+          console.log(response);
+          this.getCartProducts();
+        });
+    },
+    orderInfo() {
+      var vm = this;
+        this.axios
+          .post(`${process.env.VUE_APP_HOST}/api/wwlee/order`, {
+            data: {
+              user: vm.form,
+              message: vm.message
+            }
+          })
+          .then(response => {
+            console.log(response);
+          });
     }
   },
   created() {
