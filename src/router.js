@@ -6,6 +6,7 @@ import Dashboard from './components/pages/Dashboard.vue'
 import Product from './components/Product.vue'
 import CustomerOrder from './components/pages/CustomerOrder.vue'
 import Cart from "./components/pages/Cart.vue";
+import Coupon from "./components/pages/Coupon.vue";
 
 
 const routes = [
@@ -36,7 +37,11 @@ const routes = [
         name: 'product',
         path: 'product/:page',
         component: Product,
-        // meta: { requiresAuth: true }
+      },
+      {
+        name: 'coupon',
+        path: 'coupon',
+        component: Coupon,
       },
       {
         name: 'Cart',
