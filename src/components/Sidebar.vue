@@ -26,6 +26,12 @@
               <i class="fas fa-ticket-alt"></i>
               優惠券</router-link
             >
+            <!-- 訂單列表 -->
+            <router-link class="nav-link" to="/admin/order_list">
+              <i class="fas fa-list-ul"></i>
+              訂單列表</router-link
+            >
+
           </li>
         </ul>
         <h6

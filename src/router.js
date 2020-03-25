@@ -7,6 +7,8 @@ import Product from './components/Product.vue'
 import CustomerOrder from './components/pages/CustomerOrder.vue'
 import Cart from "./components/pages/Cart.vue";
 import Coupon from "./components/pages/Coupon.vue";
+import Order from "./components/pages/Order.vue";
+import OrderList from "./components/pages/OrderList.vue";
 
 
 const routes = [
@@ -31,10 +33,9 @@ const routes = [
         name: 'product',
         path: 'product',
         component: Product,
-        // meta: { requiresAuth: true }
       },
       {
-        name: 'product',
+        name: 'product_page',
         path: 'product/:page',
         component: Product,
       },
@@ -44,9 +45,19 @@ const routes = [
         component: Coupon,
       },
       {
-        name: 'Cart',
-        path: '/cart',
+        name: 'cart',
+        path: 'cart',
         component: Cart,
+      },
+      {
+        name: 'order',
+        path: 'order/:orderId',
+        component: Order
+      },
+      {
+        name: 'order_list',
+        path: 'order_list',
+        component: OrderList
       },
     ]
   },
@@ -62,10 +73,6 @@ const routes = [
       }
     ]
   },
- 
-  
-
-
 ]
 
 const router = new VueRouter({
