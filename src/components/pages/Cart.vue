@@ -72,16 +72,18 @@
             rules="required"
             v-slot="{ errors, valid }"
           >
-            <b-form-group id="input-group-1" label="姓名" label-for="input-1">
+            <b-form-group
+              id="input-group-1"
+              label="姓名"
+              label-for="input-1"
+              :state="valid"
+              :invalid-feedback="errors[0]"
+            >
               <b-form-input
                 v-model="form.name"
-                id="input-1"
                 placeholder="請輸入姓名"
                 :state="valid"
               ></b-form-input>
-              <b-form-invalid-feedback id="input-1">
-                {{ errors[0] }}
-              </b-form-invalid-feedback>
             </b-form-group>
           </ValidationProvider>
 
