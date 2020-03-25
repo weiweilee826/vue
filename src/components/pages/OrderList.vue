@@ -8,47 +8,67 @@
           @click="showInfo(item)"
           variant="outline-primary"
         >
-          訂單資訊
+          編輯
         </b-button>
       </template>
     </b-table>
 
     <!-- 詳細資訊 Modal -->
     <b-modal :hide-footer="true" ref="modal" title="訂單資訊">
-      <table class="table">
-        <tbody>
-          <tr>
-            <th width="100">Email</th>
-            <td>{{ user.email }}</td>
-          </tr>
-          <tr>
-            <th>姓名</th>
-            <td>{{ user.name }}</td>
-          </tr>
-          <tr>
-            <th>收件人電話</th>
-            <td>{{ user.tel }}</td>
-          </tr>
-          <tr>
-            <th>收件人地址</th>
-            <td>{{ user.address }}</td>
-          </tr>
-          <tr>
-            <th>付款狀態</th>
-            <td>
-              <span v-if="!is_paid">尚未付款</span>
-              <span v-else class="text-success">付款完成</span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <b-form>
+        <b-form-group id="input-group-2" label="姓名" label-for="input-2">
+          <b-form-input id="input-2" v-model="order.user.name"></b-form-input>
+        </b-form-group>
+        <b-form-group id="input-group-1" label="信箱" label-for="input-1">
+          <b-form-input id="input-1" v-model="order.user.email"></b-form-input>
+        </b-form-group>
+        <b-form-group id="input-group-3" label="電話" label-for="input-3">
+          <b-form-input id="input-3" v-model="order.user.tel"></b-form-input>
+        </b-form-group>
+        <b-form-group id="input-group-4" label="地址" label-for="input-4">
+          <b-form-input
+            id="input-4"
+            v-model="order.user.address"
+          ></b-form-input>
+        </b-form-group>
+      </b-form>
+
       <br />
       <b-table
         striped
         hover
-        :items="Object.values(products)"
+        :items="Object.values(order.products)"
         :fields="productsInfo"
-      ></b-table>
+      >
+        <template v-slot:cell(qty)="{ item }">
+          <b-form-spinbutton
+            size="sm"
+            id="demo-sb"
+            v-model="item.qty"
+            min="0"
+            max="10"
+            @change="countTotal(item)"
+          />
+        </template>
+
+        <template v-slot:cell(total)="{ item }">
+          {{ item.final_total }}
+        </template>
+
+        <template v-slot:custom-foot="">
+          <b-tr>
+            <b-td colspan="3"></b-td>
+            <b-td>小計</b-td>
+            <b-td>{{ order.total }}</b-td>
+          </b-tr>
+        </template>
+      </b-table>
+
+      <div class="text-center">
+        <b-button class="mr-2" variant="primary" @click="editOrder()">
+          送出
+        </b-button>
+      </div>
     </b-modal>
   </div>
 </template>
@@ -57,6 +77,7 @@
 export default {
   data() {
     return {
+      order: { products: {}, user: {} },
       orders: [],
       fields: [
         { key: "create_at", label: "訂單建立時間" },
@@ -69,10 +90,9 @@ export default {
         { key: "product.title", label: "品名" },
         { key: "qty", label: "數量" },
         { key: "product.unit", label: "分類" },
-        { key: "total", label: "單價" }
-      ],
-      products: {},
-      user: {}
+        { key: "product.price", label: "單價" },
+        { key: "total", label: "總計" }
+      ]
     };
   },
   methods: {
@@ -85,15 +105,23 @@ export default {
         });
     },
     showInfo(item) {
-      this.user = item.user;
-      console.log(item);
-      var vm = this;
-      this.axios
-        .get(`${process.env.VUE_APP_HOST}/api/wwlee/order/${item.id}`)
-        .then(response => {
-          vm.products = response.data.order.products;
-        });
+      this.order = item;
       this.$refs["modal"].show();
+    },
+    editOrder() {
+      var vm = this;
+      var api = `${process.env.VUE_APP_HOST}/api/wwlee/admin/order/${vm.order.id}`;
+      this.axios.put(api, { data: vm.order }).then(response => {
+        console.log(response);
+      });
+      this.$refs["modal"].hide();
+    },
+    countTotal(item) {
+      item.final_total = item.product.price * item.qty;
+      this.order.total = 0;
+      for (var key in this.order.products) {
+        this.order.total += this.order.products[key].final_total;
+      }
     }
   },
   created() {
