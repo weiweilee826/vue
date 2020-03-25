@@ -61,7 +61,7 @@
         ></b-form-datepicker>
 
         <!-- 折扣碼 -->
-        <b-form-group id="input-group-4" label="折扣碼" label-for="input-2">
+        <b-form-group id="input-group-4" label="折扣碼" label-for="input-4">
           <b-form-input
             id="input-2"
             v-model="form.code"

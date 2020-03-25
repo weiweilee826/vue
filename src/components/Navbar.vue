@@ -8,7 +8,7 @@
         placeholder="Search"
         aria-label="Search"
       />
-      <router-link to="/cart"
+      <router-link to="/admin/cart"
         ><i class="fas fa-shopping-cart nav-link" style="color:white"></i
       ></router-link>
 
